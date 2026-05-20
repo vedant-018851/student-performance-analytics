@@ -90,7 +90,7 @@ Or simply double-click `index.html`.
 
 ## 👤 Author
 
-Your Name — [@your-username](https://github.com/your-username)
+Vedant — [@vedant-018851](https://github.com/vedant-018851)
 
 ---
 
