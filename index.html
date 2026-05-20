@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Performance Analytics</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo">
+      <i class="ti ti-school"></i>
+      <span>EduAnalytics</span>
+    </div>
+    <nav>
+      <button class="nav-btn active" onclick="switchTab('overview')">
+        <i class="ti ti-layout-dashboard"></i> Overview
+      </button>
+      <button class="nav-btn" onclick="switchTab('students')">
+        <i class="ti ti-users"></i> Students
+      </button>
+      <button class="nav-btn" onclick="switchTab('add')">
+        <i class="ti ti-user-plus"></i> Add Student
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <p>Class X-B · 2024–25</p>
+    </div>
+  </div>
+
+  <main class="main">
+    <!-- OVERVIEW TAB -->
+    <div class="pane active" id="pane-overview">
+      <div class="page-header">
+        <div>
+          <h1>Class Overview</h1>
+          <p>Performance summary for all students</p>
+        </div>
+        <button class="btn btn-primary" onclick="exportCSV()">
+          <i class="ti ti-download"></i> Export CSV
+        </button>
+      </div>
+
+      <div class="metrics" id="metrics"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Marks by subject</div>
+          <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Grade distribution</div>
+          <div class="chart-wrap"><canvas id="doughnut"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Score trend — top 5 students</div>
+        <div class="chart-wrap large"><canvas id="lineChart"></canvas></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Subject averages</div>
+        <div id="subjectBars"></div>
+      </div>
+    </div>
+
+    <!-- STUDENTS TAB -->
+    <div class="pane" id="pane-students">
+      <div class="page-header">
+        <div><h1>Student Records</h1><p>View, search and filter all students</p></div>
+      </div>
+
+      <div class="card">
+        <div class="filter-row">
+          <input type="text" id="search" placeholder="Search by name…" oninput="renderTable()" />
+          <select id="filterGrade" onchange="renderTable()">
+            <option value="">All grades</option>
+            <option>A</option><option>B</option><option>C</option><option>D</option><option>F</option>
+          </select>
+          <select id="sortBy" onchange="renderTable()">
+            <option value="name">Sort: Name</option>
+            <option value="total">Sort: Total marks</option>
+            <option value="avg">Sort: Average</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Name</th>
+                <th>Math</th><th>Science</th><th>English</th><th>History</th><th>CS</th>
+                <th>Total</th><th>Avg</th><th>Grade</th><th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="studentTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🏆 Top 3 performers</div>
+        <div id="topStudents"></div>
+      </div>
+    </div>
+
+    <!-- ADD STUDENT TAB -->
+    <div class="pane" id="pane-add">
+      <div class="page-header">
+        <div><h1>Add Student</h1><p>Enter student details and marks</p></div>
+      </div>
+
+      <div class="card form-card">
+        <div class="form-group">
+          <label>Student Name</label>
+          <input type="text" id="newName" placeholder="e.g. Aarav Sharma" />
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Math</label>
+            <input type="number" id="nMath" placeholder="0–100" min="0" max="100" />
+          </div>
+          <div class="form-group">
+            <label>Science</label>
+            <input type="number" id="nSci" placeholder="0–100" min="0" max="100" />
+          </div>
+          <div class="form-group">
+            <label>English</label>
+            <input type="number" id="nEng" placeholder="0–100" min="0" max="100" />
+          </div>
+          <div class="form-group">
+            <label>History</label>
+            <input type="number" id="nHist" placeholder="0–100" min="0" max="100" />
+          </div>
+          <div class="form-group">
+            <label>Computer Science</label>
+            <input type="number" id="nCS" placeholder="0–100" min="0" max="100" />
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="addStudent()">
+          <i class="ti ti-plus"></i> Add Student
+        </button>
+        <p id="addMsg" class="form-msg"></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
